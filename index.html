@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hub - Home</title>
+    <meta name="description" content="Welcome to Game Hub! Explore and play exciting games like Angry Birds, Candy Crush, and more.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px; /* Adjust padding for compact design */
+            background-color: #000; /* Keep background consistent */
+            height: 50px; /* Consistent header height */
+        }
+
+        .hamburger-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            color: #00FFFF;
+            cursor: pointer;
+        }
+
+        .logo {
+            flex: 1; /* Allow logo to take available space */
+            text-align: center;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 30px; /* Adjust size for logo */
+            object-fit: contain; /* Ensure logo fits within space */
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end; /* Align controls to the right */
+            align-items: center;
+            gap: 10px; /* Space between search and moon icons */
+        }
+
+        #search-icon,
+        #dark-mode-toggle {
+            font-size: 20px;
+            color: #00FFFF;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Search Overlay */
+        #search-section {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent black */
+            z-index: 1000;
+            overflow-y: auto; /* Allow scrolling */
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: center; /* Align items horizontally */
+            align-items: center;
+            padding: 10px 20px;
+            position: relative;
+        }
+
+        #overlay-search-bar {
+            width: 90%; /* Full width on mobile */
+            padding: 8px 12px; /* Adjust padding */
+            font-size: 16px; /* Adjust font size */
+            border: 2px solid #00FFFF; /* Cyan border */
+            border-radius: 20px; /* Rounded corners */
+            outline: none;
+            background-color: #2a2a3b;
+            color: #fff;
+            box-sizing: border-box; /* Include padding in width */
+            padding-right: 40px; /* Space for close button */
+            position: relative;
+        }
+
+        #close-search-overlay {
+            position: absolute;
+            top: 50%;
+            right: 15px; /* Position inside the search bar */
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: none;
+            color: #00FFFF;
+            font-size: 18px; /* Adjust font size */
+            cursor: pointer;
+            padding: 0;
+            z-index: 1100;
+        }
+
+        #close-search-overlay:hover {
+            color: #ff00ff; /* Change color on hover */
+            transform: translateY(-50%) scale(1.2); /* Slight hover effect */
+        }
+
+        /* Game Cards Grid */
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Responsive grid */
+            gap: 15px; /* Space between items */
+            width: 100%; /* Full width */
+            padding: 10px; /* Add padding */
+            box-sizing: border-box;
+        }
+
+        .search-results-grid .game-card {
+            position: relative;
+            background: #27293d;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%; /* Full width for grid */
+            aspect-ratio: 1; /* Maintain square ratio */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .search-results-grid .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .search-results-grid .game-card .game-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            padding: 10px;
+            font-size: 14px;
+            color: #00FFFF; /* Cyan text */
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    }
+</style>
+
+
+
+
+
+
+
+
+</head>
+<body class="index-page">
+   <header>
+    <div class="hamburger-menu" id="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">☰</div>
+    </div>
+    <div class="logo">
+        <a href="index.html">
+            <img src="images/logo.png" alt="Game Hub Logo">
+        </a>
+    </div>
+    <nav>
+       <ul class="nav-links">
+            <li><a href="Category/action/Index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+  <div class="controls">
+  <i id="search-icon" class="fas fa-search" onclick="openSearchSection()"></i>
+      
+ <div id="search-section" class="search-overlay">
+    <div class="search-header">
+        <input
+            type="text"
+            id="overlay-search-bar"
+            placeholder="Search a game to play..."
+            oninput="filterGamesOverlay()"
+        />
+        <button id="close-search-overlay" onclick="closeSearchSection()">✖</button>
+    </div>
+    <h2>Games</h2>
+    <div class="search-results-grid" id="search-results-grid"></div>
+</div>
+
+
+
+
+    <button id="dark-mode-toggle">🌙</button>
+</div>
+
+</header>
+ <!-- Category Section with Filters -->
+<div class="category-section">
+    <h2>🔥 Trending Categories</h2>
+    <div class="category-filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="car">🚗 Car</button>
+        <button class="filter-btn" data-category="action">🎮 Action</button>
+        <button class="filter-btn" data-category="skill">⚡ Skill</button>
+        <button class="filter-btn" data-category="shooting">🔫 Shooting</button>
+        <button class="filter-btn" data-category="sport">🏆 Sport</button>
+        <button class="filter-btn" data-category="idle">⏳ Idle</button>
+    </div>
+</div>
+
+<!-- Sliding Menu -->
+<div class="mobile-menu" id="mobile-menu">
+    <div class="menu-header">
+        <button class="close-menu" onclick="toggleMenu()">✖</button>
+    </div>
+    <ul class="mobile-menu-links">
+        <li><button class="filter-btn" data-category="all" onclick="toggleMenu()">All Games</button></li>
+        <li><button class="filter-btn" data-category="action" onclick="toggleMenu()">Action</button></li>
+        <li><button class="filter-btn" data-category="puzzle" onclick="toggleMenu()">Puzzle</button></li>
+        <li><button class="filter-btn" data-category="sports" onclick="toggleMenu()">Sports</button></li>
+    </ul>
+    <div class="mobile-menu-socials">
+        <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+</div>
+
+
+
+    
+    <main>
+       <h2>Games</h2>
+    
+        <div class="game-grid">
+    <a class="game-card" href="game/angry-birds.html" data-category="puzzle action">
+        <img src="../images/candy-crush-thumbnail.jpg" alt="Candy Crush">
+        <div class="game-title">Candy Crush</div>
+    </a>
+    <a class="game-card" href="candy-crush.html" data-category="puzzle">
+        <img src="../images/candy-crush-thumbnail.jpg" alt="Candy Crush">
+        <div class="game-title">Candy Crush</div>
+    </a>
+       <a class="game-card" href="candy-crush.html" data-category="puzzle">
+        <img src="../images/candy-crush-thumbnail.jpg" alt="Candy Crush">
+        <div class="game-title">Candy Crush</div>
+    </a>
+       <a class="game-card" href="candy-crush.html" data-category="puzzle">
+        <img src="../images/candy-crush-thumbnail.jpg" alt="Candy Crush">
+        <div class="game-title">Candy Crush</div>
+    </a>   
+        <a class="game-card" href="candy-crush.html" data-category="puzzle">
+        <img src="../images/candy-crush-thumbnail.jpg" alt="Candy Crush">
+        <div class="game-title">Candy Crush</div>
+    </a>
+        <a class="game-card" href="candy-crush.html" data-category="puzzle">
+        <img src="../images/candy-crush-thumbnail.jpg" alt="Candy Crush">
+        <div class="game-title">Candy Crush</div>
+    </a>      
+    <!-- Repeat game cards -->
+</div>
+
+        <p id="no-results" style="display: none; text-align: center; color: red;">No games found.</p>
+    </main>
+    
+    <footer>
+         <p>&copy; 2025 Game Hub. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank" title="Follow us on Facebook">Facebook</a> |
+            <a href="https://twitter.com" target="_blank" title="Follow us on Twitter">Twitter</a> |
+            <a href="https://instagram.com" target="_blank" title="Follow us on Instagram">Instagram</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

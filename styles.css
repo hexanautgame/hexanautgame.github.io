@@ -1,0 +1,599 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #1a1a2e; /* Dark gaming background */
+    color: #eaeaea;
+    margin: 0;
+    padding: 0;
+}
+h2 {
+    text-align: left; /* Align the heading to the left */
+    margin-left: 20px; /* Adjust this value to match the padding/margin of the game grid */
+    font-size: 24px; /* Set a font size that fits your design */
+    color: #eaeaea; /* Keep it consistent with your theme */
+    margin-bottom: 10px; /* Space between the heading and the game grid */
+}
+@media (max-width: 768px) {
+    h2 {
+        text-align: center; /* Center align on mobile if needed */
+        margin-left: 0; /* Reset margin for smaller screens */
+    }
+}
+
+/* ========== HEADER ========== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000000; /* Black background for header */
+    border-bottom: 3px solid #00FFFF; /* Cyan border */
+    position: relative;
+}
+
+header .logo img {
+    width: 150px;
+}
+
+header .controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ========== NAVIGATION STYLING ========== */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    background-color: #1a1a2e;
+    color: #00FFFF;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover {
+    background-color: #00FFFF;
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* General Search Overlay */
+.search-overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent black */
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto; /* Allow scrolling on long results */
+    color: #eaeaea;
+    box-sizing: border-box; /* Include padding in width/height calculations */
+}
+
+/* Search Header - Desktop */
+.search-header {
+    display: flex;
+    justify-content: center; /* Center-align the search bar */
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background: rgba(0, 0, 0, 0.95); /* Sticky header with same background */
+    padding: 10px 0;
+    z-index: 1001; /* Ensure it stays above content */
+    position: relative; /* Ensure children can be positioned absolutely */
+}
+
+/* Search Bar */
+#overlay-search-bar {
+    width: 50%; /* Default desktop width */
+    padding: 8px 12px; /* Adjust padding */
+    font-size: 14px; /* Font size */
+    border: 2px solid #00FFFF; /* Cyan border */
+    border-radius: 20px; /* Rounded corners */
+    outline: none;
+    background-color: #2a2a3b;
+    color: #fff;
+    box-sizing: border-box; /* Ensure padding is included in width */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding-right: 40px; /* Space for close button */
+}
+
+/* Close Button Inside the Search Bar */
+#close-search-overlay {
+    position: absolute;
+    top: 50%;
+    right: calc(25% + 15px); /* Align to the right of the search bar */
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    color: #00FFFF; /* Cyan color */
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#close-search-overlay:hover {
+    color: #ff00ff; /* Change color on hover */
+    transform: translateY(-50%) scale(1.2); /* Slight hover effect */
+}
+
+/* Focus Effect for Search Bar */
+#overlay-search-bar:focus {
+    border-color: #00FFFF;
+    box-shadow: 0 0 5px #00FFFF; /* Subtle glow effect */
+}
+
+/* Responsive Adjustments for Mobile */
+@media (max-width: 768px) {
+    .search-header {
+        flex-direction: row; /* Keep search bar and close button aligned */
+        justify-content: center;
+    }
+
+    #overlay-search-bar {
+        width: 90%; /* Full-width on mobile */
+        margin-right: 0;
+        font-size: 16px; /* Slightly larger font */
+        padding-right: 40px;
+    }
+
+    #close-search-overlay {
+        right: 5%; /* Adjust position for mobile view */
+    }
+}
+
+/* Game Cards Grid */
+.search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Space between items */
+    width: 100%; /* Full width */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.search-results-grid .game-card {
+    position: relative;
+    background: #27293d;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%; /* Full width for grid */
+    aspect-ratio: 1; /* Maintain square ratio */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.search-results-grid .game-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search-results-grid .game-card .game-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    padding: 10px;
+    font-size: 14px;
+    color: #00FFFF; /* Cyan text */
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+
+#dark-mode-toggle {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#dark-mode-toggle:hover {
+    color: #007bff;
+}
+
+/* Navigation Menu */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 15px;
+    margin: 0;
+}
+
+.nav-links button {
+    background-color: #1a1a2e;
+    color: #00FFFF; /* Initial color is cyan */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links button:hover {
+    background-color: #00FFFF; /* Hover background changes to cyan */
+    color: #000; /* Text changes to black on hover */
+    transform: scale(1.1);
+}
+
+.nav-links button.active {
+    background-color: #00FFFF; /* Cyan color for selected button */
+    color: #000; /* Black text */
+    transform: scale(1.1); /* Optional: Keep the slight scale effect */
+}
+
+
+
+/* Game Grid */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Create multiple columns */
+    gap: 20px; /* Space between cards */
+    padding: 20px; /* Internal padding */
+    margin:0 auto; /* Center the grid */
+    width: 95%; /* Add some buffer space */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+
+/* Game Card */
+.game-card {
+    position: relative;
+    background: #27293d;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    width: 150px;
+    height: 150px;
+    border: 2px solid transparent; /* Default border is transparent */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Create multiple columns */
+        gap: 30px; /* Reduce gap for better spacing */
+        padding: 10px;
+        width: 100%; /* Ensure it takes full width */
+    }
+
+     .game-card {
+        width: 150px; /* Keep card width consistent */
+        height: 150px; /* Keep card height consistent */
+    }
+}
+
+
+
+
+.game-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover Effect */
+.game-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    border: 2px solid #00FFFF; /* Thin cyan border on hover */
+}
+
+.game-card:hover img {
+    opacity: 0.3; /* Dim image on hover */
+}
+
+
+.game-card:hover img {
+    opacity: 0.3;
+}
+
+/* Game Card Title */
+.game-card .game-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+    color: #00FFFF; /* Updated title color to cyan */
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+/* Hover Effect for Title */
+.game-card:hover .game-title {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly more transparent on hover */
+}
+
+
+/* Footer */
+footer {
+    background-color: #000000; /* Black background */
+    color: #00FFFF; /* Cyan text */
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    border-top: 3px solid #00FFFF; /* Cyan border to match theme */
+}
+
+footer a {
+    color: #00FFFF; /* Cyan links */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+footer a:hover {
+    color: #007bff; /* Light blue hover color */
+    text-decoration: underline; /* Underline on hover */
+}
+
+
+
+/* Ensure hamburger menu is visible on mobile */
+.hamburger-menu {
+    display: none; /* Default: hidden for larger screens */
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    z-index: 10;
+}
+
+.hamburger-icon {
+    font-size: 24px;
+    color: #00FFFF;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Show the hamburger menu on mobile screens */
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block; /* Visible on screens smaller than 768px */
+    }
+
+    nav {
+        display: none; /* Hide the desktop navigation */
+    }
+
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+
+.hamburger-icon {
+    font-size: 24px;
+    color: #00FFFF;
+    cursor: pointer;
+    user-select: none;
+}
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 250px;
+    background-color: #1a1a2e;
+    color: #eaeaea;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    overflow-y: auto; /* Add scroll in case of overflow */
+}
+
+
+.menu-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    color: #00FFFF;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close-menu:hover {
+    color: #007bff;
+}
+
+.mobile-menu-links {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0; /* Add margin to push items down */
+}
+
+.mobile-menu-links li {
+    margin: 10px 0;
+    text-align: left; /* Align text to the left */
+}
+
+.mobile-menu-links li button {
+    background: none;
+    border: none;
+    color: #00FFFF;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: color 0.3s ease;
+}
+
+.mobile-menu-links li button:hover {
+    color: #007bff;
+}
+
+.mobile-menu-socials {
+    display: flex;
+    justify-content: center; /* Center align the icons */
+    align-items: center; /* Vertically center the icons */
+    gap: 15px; /* Space between the icons */
+    margin-top: auto; /* Push the icons to the bottom of the menu */
+    padding-bottom: 20px; /* Add padding at the bottom for better spacing */
+    position: relative; /* Ensure proper placement */
+}
+
+.mobile-menu-socials a {
+    color: #00FFFF;
+    font-size: 24px; /* Adjust size for better visibility */
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.mobile-menu-socials a:hover {
+    color: #007bff;
+    transform: scale(1.2); /* Add a hover zoom effect */
+}
+/* Ensure search icon is styled */
+#search-icon {
+    font-size: 24px;
+    color: #00FFFF;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+
+/* Mobile styles for search */
+@media (max-width: 768px) {
+    #search-bar {
+        display: none; /* Hide search bar initially */
+    }
+
+    #search-icon {
+        display: block; /* Show search icon on mobile */
+    }
+}
+#search-container {
+    display: none; /* Initially hidden */
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#search-bar {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #2a2a3b;
+    color: #fff;
+    font-size: 16px;
+    width: 100%; /* Full width */
+}
+
+#close-search {
+    font-size: 20px;
+    color: #00FFFF;
+    cursor: pointer;
+    display: block; /* Visible when search is open */
+}
+
+#search-icon {
+    font-size: 20px;
+    color: #00FFFF;
+    cursor: pointer;
+    display: block; /* Visible when search is closed */
+}
+
+@media (max-width: 768px) {
+    #search-bar {
+        width: auto; /* Adjust width for mobile */
+    }
+}
+/* ========== CATEGORY SECTION STYLING ========== */
+.category-section {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+.category-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+/* ========== CATEGORY FILTERS STYLING ========== */
+.category-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap; /* Ensures wrapping on smaller screens */
+    margin-top: 10px;
+}
+
+.category-filters button {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #00FFFF;
+    padding: 10px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 25px; /* Rounded buttons */
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Space for icons if needed */
+}
+
+/* Hover & Active Effects */
+.category-filters button:hover,
+.category-filters button.active {
+    background-color: #00FFFF;
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .category-filters {
+        gap: 8px;
+    }
+
+    .category-filters button {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+}
