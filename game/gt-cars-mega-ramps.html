@@ -1,1 +1,518 @@
+<!DOCTYPE html>   
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexanaut io - GT Cars Mega Ramps</title>
+    <meta name="description" content="GT Cars Mega Ramps puts you behind the wheel of fully customizable super-sport cars for heart-stopping mega ramp action! Launch off towering ramps, execute daring stunts, and outmaneuver colossal bosses in electrifying showdowns. Experience a one-of-a-kind adventure as you conquer the ultimate title of driver extraordinaire.">
+    <link rel="stylesheet" href="../../gamepage.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px; /* Adjust padding for compact design */
+            background-color: #000; /* Keep background consistent */
+            height: 50px; /* Consistent header height */
+        }
+
+        .hamburger-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .hamburger-icon {
+            font-size: 24px;
+            color: #00FFFF;
+            cursor: pointer;
+        }
+
+        .logo {
+            flex: 1; /* Allow logo to take available space */
+            text-align: center;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 50px; /* Adjust size for logo */
+            object-fit: contain; /* Ensure logo fits within space */
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end; /* Align controls to the right */
+            align-items: center;
+            gap: 10px; /* Space between search and moon icons */
+        }
+
+        #search-icon,
+        #dark-mode-toggle {
+            font-size: 20px;
+            color: #00FFFF;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Search Overlay */
+        #search-section {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent black */
+            z-index: 1000;
+            overflow-y: auto; /* Allow scrolling */
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: center; /* Align items horizontally */
+            align-items: center;
+            padding: 10px 20px;
+            position: relative;
+        }
+
+        #overlay-search-bar {
+            width: 90%; /* Full width on mobile */
+            padding: 8px 12px; /* Adjust padding */
+            font-size: 16px; /* Adjust font size */
+            border: 2px solid #00FFFF; /* Cyan border */
+            border-radius: 20px; /* Rounded corners */
+            outline: none;
+            background-color: #2a2a3b;
+            color: #fff;
+            box-sizing: border-box; /* Include padding in width */
+            padding-right: 40px; /* Space for close button */
+            position: relative;
+        }
+
+        #close-search-overlay {
+            position: absolute;
+            top: 50%;
+            right: 15px; /* Position inside the search bar */
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: none;
+            color: #00FFFF;
+            font-size: 18px; /* Adjust font size */
+            cursor: pointer;
+            padding: 0;
+            z-index: 1100;
+        }
+
+        #close-search-overlay:hover {
+            color: #ff00ff; /* Change color on hover */
+            transform: translateY(-50%) scale(1.2); /* Slight hover effect */
+        }
+
+        /* Game Cards Grid */
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Responsive grid */
+            gap: 15px; /* Space between items */
+            width: 100%; /* Full width */
+            padding: 10px; /* Add padding */
+            box-sizing: border-box;
+        }
+
+        .search-results-grid .game-card {
+            position: relative;
+            background: #27293d;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%; /* Full width for grid */
+            aspect-ratio: 1; /* Maintain square ratio */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .search-results-grid .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .search-results-grid .game-card .game-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            padding: 10px;
+            font-size: 14px;
+            color: #00FFFF; /* Cyan text */
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    }
+</style>
+</head>
+<body>
+  <header>
+    <div class="hamburger-menu" id="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">☰</div>
+    </div>
+    <div class="logo">
+        <a href="../../index.html">
+            <img src="../../images/Hexanautgame.io-logo.jpg" alt="Hexanautgame.io">
+        </a>
+    </div>
+    <nav>
+       <ul class="nav-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../about-us.html">About</a></li>
+            <li><a href="../../contact-us.html">Contact</a></li>
+            <li><a href="../../privacy-policy.html">Privacy Policy</a></li>
+
+        </ul>
+    </nav>
+  <div class="controls">
+  <i id="search-icon" class="fas fa-search" onclick="openSearchSection()"></i>
+     
+ <div id="search-section" class="search-overlay">
+    <div class="search-header">
+        <input
+            type="text"
+            id="overlay-search-bar"
+            placeholder="Search a game to play..."
+            oninput="filterGamesOverlay()"
+        />
+        <button id="close-search-overlay" onclick="closeSearchSection()">✖</button>
+    </div>
+    <h2>Games</h2>
+    <div class="search-results-grid" id="search-results-grid"></div>
+</div>
+
+
+
+
+    <button id="dark-mode-toggle">🌙</button>
+</div>
+
+</header>
+       <section class="scrolling-games">
+    <div class="scrolling-container">
+        <a class="scrolling-game-card" href="../../game/top/battle-arena.html" data-category="puzzle">
+                <img src="../../images/top/Battle-Arena.webp" alt="Battle Arena">
+                <div class="game-title">Battle Arena</div>
+            </a>
+       <a class="scrolling-game-card" href="../../game/top/cat-life-simulator-3D.html" data-category="puzzle">
+                <img src="../../images/top/Cat-Life-Simulator-3D.webp" alt="Cat Life Simulator 3D">
+                <div class="game-title">Cat Life Simulator 3D</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/dead-land-survival.html" data-category="puzzle">
+                <img src="../../images/top/Dead-Land-Survival.webp" alt="Dead Land: Survival">
+                <div class="game-title">Dead Land: Survival</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/firestone-idle-rpg.html" data-category="puzzle">
+                <img src="../../images/top/Firestone-Idle-RPG.webp" alt="Firestone Idle RPG">
+                <div class="game-title">Firestone Idle RPG</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/fury-foot.html" data-category="puzzle">
+                <img src="../../images/top/Fury-Foot.webp" alt="Fury Foot">
+                <div class="game-title">Fury Foot</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/kingdom-of-pixels.html" data-category="puzzle">
+                <img src="../../images/top/Kingdom of Pixels.webp" alt="Kingdom Of Pixels">
+                <div class="game-title">Kingdom Of Pixels</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/poly-track.html" data-category="puzzle">
+                <img src="../../images/top/Poly Track.webp" alt="Poly Track">
+                <div class="game-title">Poly Track</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/rally-racer-dirt.html" data-category="puzzle">
+                <img src="../../images/top/Rally Racer Dirt.webp" alt="Rally Racer Dirt">
+                <div class="game-title">Rally Racer Dirt</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/bridge-race.html" data-category="puzzle">
+                <img src="../../images/top/bridge-race.webp" alt="Bridge Race">
+                <div class="game-title">Bridge Race</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/top/two-sides-of-hell-portable-edition.html" data-category="puzzle">
+                <img src="../../images/top/Two Sides of Hell - Portable Edition.webp" alt="Two Sides of Hell: Portable Edition
+">
+                <div class="game-title">Two Sides of Hell: Portable Edition
+</div>
+            </a>
+       
+        <!-- Add more game cards as needed -->
+    </div>
+</section>
+
+<!-- Sliding Menu -->
+<div class="mobile-menu" id="mobile-menu">
+    <div class="menu-header">
+        <button class="close-menu" onclick="toggleMenu()">✖</button>
+    </div>
+    <ul class="mobile-menu-links">
+        <li><button class="filter-btn" data-category="all" onclick="toggleMenu()">All Games</button></li>
+        <li><button class="filter-btn" data-category="action" onclick="toggleMenu()">Action</button></li>
+        <li><button class="filter-btn" data-category="puzzle" onclick="toggleMenu()">Puzzle</button></li>
+        <li><button class="filter-btn" data-category="sports" onclick="toggleMenu()">Sports</button></li>
+    </ul>
+    <div class="mobile-menu-socials">
+        <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+</div>
+
+   
+    <main>
+           <section class="game-section">
+      <!-- Left Game Cards -->
+<div class="left-section">
+    <div class="leftright-grid">
+       <a class="game-card" href="../../game/trending/atomic-champions.html" data-category="puzzle">
+                <img src="../../images/trending/Atomic Champions.webp" alt="Atomic Champions">
+                <div class="game-title">Atomic Champions</div>
+            </a>
+       <a class="game-card" href="../../game/trending/demolition-derby-3.html" data-category="puzzle">
+                <img src="../../images/trending/Demolition Derby 3.webp" alt="Demolition Derby 3">
+                <div class="game-title">Demolition Derby 3</div>
+            </a>
+       <a class="game-card" href="../../game/trending/elevator-room-escape.html" data-category="puzzle">
+                <img src="../../images/trending/Elevator Room Escape.webp" alt="Elevator Room Escape">
+                <div class="game-title">Elevator Room Escape</div>
+            </a>
+        <a class="game-card" href="../../game/trending/jetpack-joyride.html" data-category="puzzle">
+                <img src="../../images/trending/Jetpack Joyride.webp" alt="Jetpack Joyride">
+                <div class="game-title">Jetpack Joyride</div>
+            </a>
+    </div>
+    <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+    <div class="leftright-grid">
+    <a class="game-card" href="../../game/trending/knife-io.html" data-category="puzzle">
+                <img src="../../images/trending/Knife.io.webp" alt="Knife.io">
+                <div class="game-title">Knife.io</div>
+            </a>
+    <a class="game-card" href="../../game/trending/knight-hero-2-revenge-Idle-rpg.html" data-category="puzzle">
+                <img src="../../images/trending/Knight Hero 2 Revenge Idle RPG.webp" alt="Knight Hero 2 Revenge Idle RPG">
+                <div class="game-title">Knight Hero 2 Revenge Idle RPG</div>
+            </a>
+        </div>
+      <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+     <div class="leftright-grid">
+    <a class="game-card" href="../../game/trending/money-factory.html" data-category="puzzle">
+                <img src="../../images/trending/Money Factory.webp" alt="Money Factory">
+                <div class="game-title">Money Factory</div>
+            </a>
+    <a class="game-card" href="../../game/trending/mr-racer.html" data-category="puzzle">
+                <img src="../../images/trending/Mr. Racer.webp" alt="Mr. Racer">
+                <div class="game-title">Mr. Racer</div>
+            </a>
+        </div>
+    <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+     <div class="leftright-grid">
+    <a class="game-card" href="../../game/trending/nuclear-day.html" data-category="puzzle">
+                <img src="../../images/trending/Nuclear Day.webp" alt="Nuclear Day">
+                <div class="game-title">Nuclear Day</div>
+            </a>
+    <a class="game-card" href="../../game/trending/stunt-paradise.html" data-category="puzzle">
+                <img src="../../images/trending/Stunt Paradise.webp" alt="Stunt Paradise">
+                <div class="game-title">Stunt Paradise</div>
+            </a>
+        </div>
+    <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+     <div class="leftright-grid">
+    <a class="game-card" href="../../game/trending/world-z-defense-zombie-defens.html" data-category="puzzle">
+                <img src="../../images/trending/World Z Defense - Zombie Defens.webp" alt="World Z Defense-Zombie Defens">
+                <div class="game-title">World Z Defense-Zombie Defens</div>
+            </a>
+    <a class="game-card" href="../../game/trending/dark-stones-card-battle-rpg.html" data-category="puzzle">
+                <img src="../../images/trending/dark-stones-card-battle-rpg.webp" alt="Dark Stones Card Battle RPG">
+                <div class="game-title">Dark Stones Card Battle RPG</div>
+            </a>
+        </div>
+</div>
+
+        <!-- Main Game Iframe -->
+     
+ <div class="game-content">
+    <div class="iframe-container">
+        <iframe src="https://www.crazygames.com/embed/gt-cars-mega-ramps"
+                title="GT Cars Mega Ramps" allowfullscreen></iframe>
+    </div>
+
+    <div class="game-info-container">
+        <div class="game-title">GT Cars Mega Ramps</div>
+        <div class="game-buttons">
+            <i class="fas fa-share-alt share-icon" onclick="shareGame()" title="Share"></i>
+            <i class="fas fa-expand fullscreen-icon" onclick="makeFullscreen()" title="Full Screen"></i>
+        </div>
+    </div>
+
+    <div class="game-description">
+        <h3>Description</h3>
+        <p>GT Cars Mega Ramps puts you behind the wheel of fully customizable super-sport cars for heart-stopping mega ramp action! Launch off towering ramps, execute daring stunts, and outmaneuver colossal bosses in electrifying showdowns. Experience a one-of-a-kind adventure as you conquer the ultimate title of driver extraordinaire.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <h2>PC Controls:</h2>
+        <ul>
+            <li><strong>Accelerate:</strong> W or Up Arrow Key</li>
+            <li><strong>Brake/Reverse:</strong> S or Down Arrow Key</li>
+            <li><strong>Steer Left:</strong> A or Left Arrow Key</li>
+            <li><strong>Steer Right:</strong> D or Right Arrow Key</li>
+            <li><strong>NOS/Boost:</strong> L-Shift or N</li>
+             <li><strong>Reset Car Position:</strong> R</li>
+            <li><strong>Change Camera View:</strong> C or U</li>
+        </ul>.</p>
+    </div>
+</div>
+
+       <!-- Right Game Cards -->
+<div class="right-section">
+      <div class="leftright-grid">
+       <a class="game-card" href="../../game/right/4th-and-goal-2019.html" data-category="puzzle">
+                <img src="../../images/right/4th and Goal 2019.webp" alt="4th and Goal 2019">
+                <div class="game-title">4th and Goal 2019</div>
+            </a>
+       <a class="game-card" href="../../game/right/bloxd-io.html" data-category="puzzle">
+                <img src="../../images/right/Bloxd.io.webp" alt="Bloxd.io">
+                <div class="game-title">Bloxd.io</div>
+            </a>
+       
+       <a class="game-card" href="../../game/right/bullet-force.html" data-category="puzzle">
+                <img src="../../images/right/Bullet Force.webp" alt="Bullet Force">
+                <div class="game-title">Bullet Force</div>
+            </a>
+       
+         <a class="game-card" href="../../game/right/capy-merge-animal-drop-puzzle.html" data-category="puzzle">
+                <img src="../../images/right/Capy Merge-Animal Drop Puzzle.webp" alt="Capy Merge-Animal Drop Puzzle">
+                <div class="game-title">Capy Merge-Animal Drop Puzzle</div>
+            </a>
+    </div>
+    <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+    <div class="leftright-grid">
+    <a class="game-card" href="../../game/right/outlets-rush.html" data-category="puzzle">
+                <img src="../../images/right/Outlets-Rush.webp" alt="Outlets-Rush">
+                <div class="game-title">Outlets-Rush</div>
+            </a>
+    <a class="game-card" href="../../game/right/qb-legend-game.html" data-category="puzzle">
+                <img src="../../images/right/QB-Legend Game.webp" alt="QB-Legend Game">
+                <div class="game-title">QB-Legend Game</div>
+            </a>
+        </div>
+    <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+    <div class="leftright-grid">
+    <a class="game-card" href="../../game/right/raid-heroes-total-war.html" data-category="puzzle">
+                <img src="../../images/right/Raid-Heroes-Total-War.webp" alt="Raid-Heroes-Total-War">
+                <div class="game-title">Raid-Heroes-Total-War</div>
+            </a>
+    <a class="game-card" href="../../game/right/return-man-2.html" data-category="puzzle">
+                <img src="../../images/right/Return Man 2.webp" alt="Return Man 2">
+                <div class="game-title">Return Man 2</div>
+            </a>
+        </div>
+    <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+    <div class="leftright-grid">
+    <a class="game-card" href="../../game/right/smash-karts.html" data-category="puzzle">
+                <img src="../../images/right/Smash-Karts.webp" alt="Smash-Karts">
+                <div class="game-title">Smash-Karts</div>
+            </a>
+    <a class="game-card" href="../../game/right/street-racer-2.html" data-category="puzzle">
+                <img src="../../images/right/Street-Racer-2.webp" alt="Street-Racer-2">
+                <div class="game-title">Street-Racer-2</div>
+            </a>
+        </div>
+         <div class="ad-container">
+        <img src="../images/War Robots Battle Mech Arena-512x384.jpg" alt="Ad" class="ad-image">
+    </div>
+    <div class="leftright-grid">
+    <a class="game-card" href="../../game/right/super-squirrel-blaster.html" data-category="puzzle">
+                <img src="../../images/right/Super Squirrel Blaster.webp" alt="Super Squirrel Blaster">
+                <div class="game-title">Super Squirrel Blaster</div>
+            </a>
+    <a class="game-card" href="../../game/right/tavern-simulator.html" data-category="puzzle">
+                <img src="../../images/right/Tavern Simulator.webp" alt="Tavern Simulator">
+                <div class="game-title">Tavern Simulator</div>
+            </a>
+        </div>
+</div>
+    </section>
+
+
+        <h2>Other Games</h2>
+     
+        <div class="scrolling-container">
+        <a class="scrolling-game-card" href="../../game/other/assault-bots.html" data-category="puzzle">
+                <img src="../../images/other/assault-bots.webp" alt="Assault Bots">
+                <div class="game-title">Assault Bots</div>
+            </a>
+       <a class="scrolling-game-card" href="../../game/other/autorpg-arena-fbu.html" data-category="puzzle">
+                <img src="../../images/other/autorpg-arena-fbu.webp" alt="Autorpg Arena FBU">
+                <div class="game-title">Autorpg Arena FBU</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/bodycamera-shooter.html" data-category="puzzle">
+                <img src="../../images/other/bodycamera-shooter.webp" alt="Bodycamera Shooter">
+                <div class="game-title">Bodycamera Shooter</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/crusher-clicker.html" data-category="puzzle">
+                <img src="../../images/other/crusher-clicker.webp" alt="Crusher Clicker">
+                <div class="game-title">Crusher Clicker</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/escape-from-prison-multiplayer.html" data-category="puzzle">
+                <img src="../../images/other/escape-from-prison-multiplayer.webp" alt="Escape From Prison Multiplayer">
+                <div class="game-title">Escape From Prison Multiplayer</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/kour-io.html" data-category="puzzle">
+                <img src="../../images/other/kour-io.webp" alt="Kour Io">
+                <div class="game-title">Kour Io</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/night-city-racing.html" data-category="puzzle">
+                <img src="../../images/other/night-city-racing.webp" alt="Night City Racing">
+                <div class="game-title">Night City Racing</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/panda-shop-simulator.html" data-category="puzzle">
+                <img src="../../images/other/panda-shop-simulator.webp" alt="Panda Shop Simulator">
+                <div class="game-title">Panda Shop Simulator</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/sandbox-city-cars-zombies-ragdolls.html" data-category="puzzle">
+                <img src="../../images/other/sandbox-city-cars-zombies-ragdolls.webp" alt="Sandbox City">
+                <div class="game-title">Sandbox City</div>
+            </a>
+         <a class="scrolling-game-card" href="../../game/other/underwater-hunting.html" data-category="puzzle">
+                <img src="../../images/other/underwater-hunting.webp" alt="Underwater Hunting">
+                <div class="game-title">Underwater Hunting</div>
+            </a>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Hexanaut io All rights reserved.</p>
+    </footer>
+
+    <script src="../../script.js"></script>
+</body>
+</html>
 
