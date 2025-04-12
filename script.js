@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrollingContainer = document.querySelector(".scrolling-container");
     const cards = [...document.querySelectorAll(".scrolling-game-card")];
 
-    const cards = document.querySelectorAll('.card'); // 👈 Change '.card' if your cards use another class
+    const cards = document.querySelectorAll('.your-card-class');
 
 if (cards.length > 0) {
     const cardWidth = cards[0].offsetWidth;
