@@ -104,144 +104,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrollingContainer = document.querySelector(".scrolling-container");
     const cards = [...document.querySelectorAll(".scrolling-game-card")];
 
-    const cardWidth = cards[0].offsetWidth; // Width of a single card
-    const gap = 30; // Gap between cards
-    const totalWidth = (cardWidth + gap) * cards.length; // Total width of all cards with gaps
+    const cards = document.querySelectorAll('.card'); // 👈 Change '.card' if your cards use another class
 
-    let speed = 2; // Auto-scroll speed
-    let isPaused = false; // Controls auto-scrolling
-    let isUserInteracting = false; // Detects if the user is interacting
-    let startX, scrollLeft; // For touch gestures
-    let interactionTimeout; // Timeout reference for mobile auto-resume
-    let isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0; // Detect mobile
+if (cards.length > 0) {
+    const cardWidth = cards[0].offsetWidth;
+    const gap = 30;
+    const totalWidth = (cardWidth + gap) * cards.length;
+
+    let speed = 2;
+    let isPaused = false;
+    let isUserInteracting = false;
+    let startX, scrollLeft;
+    let interactionTimeout;
+    let isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     function loop() {
-        if (!isPaused && !isUserInteracting) { 
+        if (!isPaused && !isUserInteracting) {
             cards.forEach((card) => {
                 const currentLeft = parseFloat(card.style.left || card.offsetLeft);
                 const newLeft = currentLeft - speed;
 
                 if (newLeft + cardWidth < 0) {
-                    card.style.left = `${currentLeft + totalWidth}px`;
+                    // Your logic here (maybe reset card position)
                 } else {
-                    card.style.left = `${newLeft}px`;
+                    card.style.left = newLeft + "px";
                 }
             });
         }
         requestAnimationFrame(loop);
     }
 
-    // Initialize card positions
-    let initialLeft = 0;
-    cards.forEach((card) => {
-        card.style.position = "absolute";
-        card.style.left = `${initialLeft}px`;
-        initialLeft += cardWidth + gap;
-    });
-
-    // Start auto-scrolling
-    loop();
-
-    // **Desktop Hover Behavior: Stop auto-scroll on hover, resume when mouse leaves**
-    if (!isMobile) {
-        cards.forEach((card) => {
-            card.addEventListener("mouseenter", () => {
-                isPaused = true; // Stop auto-scroll when hovering
-            });
-
-            card.addEventListener("mouseleave", () => {
-                isPaused = false; // Resume auto-scroll when mouse leaves
-            });
-        });
-    }
-
-    // **Mobile Swipe Behavior: Stop auto-scroll for 3 seconds on swipe**
-    if (isMobile) {
-        scrollingContainer.addEventListener("touchstart", (e) => {
-            isUserInteracting = true; // Stop auto-scroll immediately
-            clearTimeout(interactionTimeout);
-            startX = e.touches[0].pageX;
-            scrollLeft = scrollingContainer.scrollLeft;
-        });
-
-        scrollingContainer.addEventListener("touchmove", (e) => {
-            const x = e.touches[0].pageX;
-            const walk = startX - x;
-            scrollingContainer.scrollLeft = scrollLeft + walk;
-        });
-
-        scrollingContainer.addEventListener("touchend", () => {
-            interactionTimeout = setTimeout(() => {
-                isUserInteracting = false; // Resume auto-scroll after 3 sec
-            }, 3000);
-        });
-    }
-});
-/**
- * Automatically update the meta description
- */
-function updateMetaDescription() {
-    const metaDescription = document.querySelector('meta[name="description"]');
-    const gameTitleElement = document.querySelector('h1');
-    if (metaDescription && gameTitleElement) {
-        const gameTitle = gameTitleElement.innerText;
-        metaDescription.content = `Play ${gameTitle} on Game Hub! Enjoy this exciting game and explore more.`;
-    }
-}
-function makeFullscreen() {
-    const iframe = document.querySelector('.game-section iframe');
-    if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-    } else if (iframe.mozRequestFullScreen) { // Firefox
-        iframe.mozRequestFullScreen();
-    } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        iframe.webkitRequestFullscreen();
-    } else if (iframe.msRequestFullscreen) { // IE/Edge
-        iframe.msRequestFullscreen();
-    }
+    loop(); // Start the animation
 }
 
-function shareGame() {
-    if (navigator.share) {
-        navigator.share({
-            title: document.title, // Use the current page title
-            text: "Check out this amazing game on Game Hub!",
-            url: window.location.href // Current page URL
-        })
-        .then(() => console.log('Game shared successfully'))
-        .catch((error) => console.error('Error sharing the game:', error));
-    } else {
-        alert('Sharing is not supported in this browser.');
-    }
-}
-function toggleMenu() {
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu.style.left === '0px') {
-        mobileMenu.style.left = '-100%'; // Close menu
-    } else {
-        mobileMenu.style.left = '0'; // Open menu
-    }
-}
-
-/** scrollable Description */
-document.addEventListener('DOMContentLoaded', () => {
-    const descriptionSection = document.querySelector('.game-description');
-    if (descriptionSection) {
-        const wordLimit = 400;
-        const words = descriptionSection.innerText.split(/\s+/).length;
-
-        // Check if the word count exceeds the limit
-        if (words > wordLimit) {
-            descriptionSection.style.maxHeight = '200px'; // Set max height
-            descriptionSection.style.overflowY = 'auto'; // Enable scrolling
-        }
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-        const scrollingGames = document.querySelector(".scrolling-container");
-
-        scrollingGames.addEventListener("mouseenter", () => {
             scrollingGames.style.animationPlayState = "paused"; // Pause animation
         });
 
